@@ -1,11 +1,24 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Dropzone from 'react-dropzone'
+import Dropzone from 'react-dropzone';
+import request from 'superagent';
+import _ from 'lodash';
 
 class App extends Component {
 
-  onDrop() {
+  onDrop(files) {
+    
+    console.log(files);
+
+    _.each(files, (file => {
+      request
+        .post('http://localhost:5000/upload/art')
+        .send(file)
+        .end((err, res) => {
+          console.log(res.text);
+        });
+    }));
   }
 
   render() {

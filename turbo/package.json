@@ -6,9 +6,11 @@
     "react-scripts": "0.7.0"
   },
   "dependencies": {
+    "lodash": "^4.17.2",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
-    "react-dropzone": "^3.7.3"
+    "react-dropzone": "^3.7.3",
+    "superagent": "^3.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
