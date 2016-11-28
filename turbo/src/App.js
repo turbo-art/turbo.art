@@ -33,14 +33,16 @@ class App extends Component {
       <div className="App">
         <div className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h2>turbo.art</h2>
+          <h2>TURBO.ART</h2>
         </div>
         <p className="App-intro">
-          art with extra horsepower
+          Art with extra horsepower.
         </p>
-        <Dropzone onDrop={this.onDrop}>
-          <div> drop yo files here </div>
-        </Dropzone>
+        <center>
+          <Dropzone onDrop={this.onDrop}>
+           <div> drop your files here </div>
+         </Dropzone> 
+        </center>
       </div>
     );
   }
