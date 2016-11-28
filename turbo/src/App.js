@@ -11,14 +11,21 @@ class App extends Component {
     
     console.log(files);
 
-    _.each(files, (file => {
+    files.forEach((file) => {
+
+      console.log(file.name);
       request
         .post('http://localhost:5000/upload/art')
-        .send(file)
-        .end((err, res) => {
-          console.log(res.text);
-        });
-    }));
+        .attach('file', file)
+        .end();
+    });
+
+    // _.each(files, (file => {
+    //   request
+    //     .post('http://localhost:5000/upload/art')
+    //     .attach(file)
+    //     .end();
+    // }));
   }
 
   render() {
