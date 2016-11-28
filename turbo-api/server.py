@@ -4,15 +4,36 @@ quick dirty api for turbo
 
 import os
 from flask import Flask, redirect, request, url_for, flash
+from flask_sqlalchemy import SQLAlchemy
 from werkzeug.utils import secure_filename
 from flask_cors import CORS
-import pudb
 
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
+db = SQLAlchemy(app)
 
 
-UPLOAD_FOLDER = 'tmp/test/'
+class Image(db.Model):
+    __tablename__ = 'images'
+
+    def __init__(self, name, path):
+        self.name = name
+        self.path = path
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
+    path = db.Column(db.String)
+
+    def __repr__(self):
+        return '<Image(id={}, name={}, path={})>'.format(
+            self.id,
+            self.name,
+            self.path
+        )
+
+
+UPLOAD_FOLDER = '/tmp'
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 
 app = Flask(__name__)
@@ -46,7 +67,14 @@ def upload_file():
             # return redirect(request.url)
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+            upload_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            file.save(upload_path)
+
+            image_entry = Image(filename, upload_path)
+            db.session.add(image_entry)
+            db.session.commit()
+
             # return redirect(url_for('upload_file',
             #                         filename=filename))
     return '''
